@@ -1,0 +1,28 @@
+### DCGM types
+
+# Temperature
+memory_temp                              value:GAUGE:U:U
+gpu_temp                                 value:GAUGE:U:U
+
+# Temperature Limits
+gpu_mem_max_op_temp                      value:GAUGE:U:U
+gpu_max_op_temp                          value:GAUGE:U:U
+slowdown_temp                            value:GAUGE:U:U
+shutdown_temp                            value:GAUGE:U:U
+
+# Power
+power_usage                              value:GAUGE:0:U
+total_energy_consumption                 value:GAUGE:0:U
+
+# Power Limits
+power_management_limit                   value:GAUGE:0:U
+
+# GPU Utilization
+gpu_utilization                          value:GAUGE:0:100
+mem_copy_utilization                     value:GAUGE:0:100
+
+# Memory
+fb_free                                  value:GAUGE:0:U
+fb_total                                 value:GAUGE:0:U
+fb_used                                  value:GAUGE:0:U
+fb_resv                                  value:GAUGE:0:U
