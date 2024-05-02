@@ -124,7 +124,7 @@ fi
 echo -e "${BLUE} > Setting up the collectd configuration file... ${RESET}"
 
 # Download the configuration file
-wget https://gitlab.ifca.es/iglesiasj/collectd_users_public/-/raw/main/collectd/collectd.conf -O $collectd_conf_path/collectd.conf
+wget https://raw.githubusercontent.com/jaimeib/collectd_users/main/collectd/collectd.conf -O $collectd_conf_path/collectd.conf
 
 # Add the hostname to the configuration file (Line starts with Hostname "name_vlanXXXX")
 sed -i -e 's|\(Hostname \).*|\1"'"$collectd_hostname"'"|g' $collectd_conf_path/collectd.conf
@@ -190,7 +190,7 @@ if $nvidia_gpu; then
     echo -e "${BLUE} > Adding the DCGM collectd plugin configuration file... ${RESET}"
 
     # Download the DCGM collectd configuration file
-    wget https://gitlab.ifca.es/iglesiasj/collectd_users_public/-/raw/main/collectd/dcgm.conf -O $collectd_conf_d_path/dcgm.conf
+    wget https://raw.githubusercontent.com/jaimeib/collectd_users/main/collectd/dcgm.conf -O $collectd_conf_d_path/dcgm.conf
 
     # Replace the current ModulePath of the DCGM collectd plugin with the correct path
     sed -i -e 's|\(ModulePath "/usr/lib64/collectd"\)|ModulePath "'"$dcgm_collectd_plugin_path"'"|g' $collectd_conf_d_path/dcgm.conf
@@ -199,7 +199,7 @@ if $nvidia_gpu; then
     echo -e "${BLUE} > Adding the DCGM collectd types.db file... ${RESET}"
 
     # Download the DCGM collectd types.db file to the collectd directory
-    wget https://gitlab.ifca.es/iglesiasj/collectd_users_public/-/raw/main/collectd/dcgm_types.db -O $collectd_types_db_path/dcgm_types.db
+    wget https://raw.githubusercontent.com/jaimeib/collectd_users/main/collectd/dcgm_types.db -O $collectd_types_db_path/dcgm_types.db
 
 fi
 
