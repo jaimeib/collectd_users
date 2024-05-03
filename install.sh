@@ -233,8 +233,8 @@ echo -e "${BOLD} > Next steps: ${RESET}"
 echo -e "${BOLD} > Now you can log in into ${BLUE}https://monitor.ifca.es/grafana/${RESET}${BOLD} with your ${BLUE}IFCA${RESET}${BOLD} credentials. ${RESET}" 
 echo -e "${BOLD}    1. Now go to ${YELLOW}"Home"${RESET}${BOLD} --> ${YELLOW}"Dashboards"${RESET}${BOLD} --> ${YELLOW}"IFCA Monitoring External"${RESET} ${RESET}"
 echo -e "${BOLD}    2. You will see 2 dashboards: ${RESET}"
-echo -e "${BOLD}       - ${GREEN}"IFCA Cloud VM General":${RESET} This dashboard shows the general information of the VMs available in your project. ${RESET}"
-echo -e "${BOLD}       - ${GREEN}"IFCA Cloud VM Overview":${RESET} This dashboard shows the detailed information of a specific VM available in your project. ${RESET}"
+echo -e "${BOLD}       - ${GREEN}"IFCA Cloud VM General":${RESET} This dashboard shows the general information of the VMs in your project. ${RESET}"
+echo -e "${BOLD}       - ${GREEN}"IFCA Cloud VM Overview":${RESET} This dashboard shows the detailed information of a specific VM. ${RESET}"
 echo -e "${BOLD} > Remember to select your ${YELLOW}VLAN number${RESET}: ${RED}$vlan${RESET}${BOLD} in the ${YELLOW}"VLAN"${RESET}${BOLD} field in the top right corner of the dashboard. ${RESET}"
 
 # Exit the script
