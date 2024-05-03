@@ -74,6 +74,7 @@ if [ -f /etc/redhat-release ]; then
     # Define the directory path for the collectd configuration file
     collectd_conf_path="/etc"
     collectd_conf_d_path="/etc/collectd.d"
+    collectd_plugin_dir_path="/usr/lib64/collectd"
     collectd_types_db_path="/usr/share/collectd"
     dcgm_bindings_path="/usr/local/dcgm/bindings/python3"
     dcgm_collectd_plugin_path="/usr/lib64/collectd/dcgm"
@@ -86,6 +87,7 @@ if [ -f /etc/debian_version ]; then
     # Define the directory path for the collectd configuration file
     collectd_conf_path="/etc/collectd"
     collectd_conf_d_path="/etc/collectd/collectd.conf.d"
+    collectd_plugin_dir_path="/usr/lib/collectd"
     collectd_types_db_path="/usr/share/collectd"
     dcgm_bindings_path="/usr/local/dcgm/bindings/python3"
     dcgm_collectd_plugin_path="/usr/lib/collectd/dcgm"
@@ -128,6 +130,9 @@ wget https://raw.githubusercontent.com/jaimeib/collectd_users/main/collectd/coll
 
 # Add the hostname to the configuration file (Line starts with Hostname "name_vlanXXXX")
 sed -i -e 's|\(Hostname \).*|\1"'"$collectd_hostname"'"|g' $collectd_conf_path/collectd.conf
+
+# Replace current PluginDir with the correct path
+sed -i -e 's|\(PluginDir "/usr/lib64/collectd"\)|PluginDir "'"$collectd_plugin_dir_path"'"|g' $collectd_conf_path/collectd.conf
 
 # Replace the current <Include "/etc/collectd/collectd.conf.d"> with the correct path
 sed -i -e 's|\(<Include "/etc/collectd/collectd.conf.d">.*\)|<Include "'"$collectd_conf_d_path"'">:|g' $collectd_conf_path/collectd.conf
@@ -193,7 +198,7 @@ if $nvidia_gpu; then
     wget https://raw.githubusercontent.com/jaimeib/collectd_users/main/collectd/dcgm.conf -O $collectd_conf_d_path/dcgm.conf
 
     # Replace the current ModulePath of the DCGM collectd plugin with the correct path
-    sed -i -e 's|\(ModulePath "/usr/lib64/collectd"\)|ModulePath "'"$dcgm_collectd_plugin_path"'"|g' $collectd_conf_d_path/dcgm.conf
+    sed -i -e 's|\(ModulePath "/usr/lib64/collectd/dcgm"\)|ModulePath "'"$dcgm_collectd_plugin_path"'"|g' $collectd_conf_d_path/dcgm.conf
 
     # Add the DCGM collectd types.db file to the collectd configuration file
     echo -e "${BLUE} > Adding the DCGM collectd types.db file... ${RESET}"
