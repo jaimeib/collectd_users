@@ -239,5 +239,3 @@ echo -e "${BOLD} > Remember to select your ${YELLOW}VLAN number${RESET}: ${RED}$
 
 # Exit the script
 exit
-
-
