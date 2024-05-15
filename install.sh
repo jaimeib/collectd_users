@@ -216,6 +216,9 @@ systemctl enable collectd
 echo -e "${YELLOW} > Starting the collectd service... ${RESET}"
 systemctl start collectd
 
+# Restart the collectd service (in case it was already running)
+systemctl restart collectd
+
 # Check if the collectd service is running
 if ! systemctl is-active --quiet collectd; then
     echo -e "${RED} > Collectd service is not running. Exiting... ${RESET}"
