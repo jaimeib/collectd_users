@@ -148,7 +148,7 @@ if $nvidia_gpu; then
     if [ -f /etc/redhat-release ]; then
 
         # Set up the CUDA network repository meta-data, GPG key:
-        dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo
+        dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
 
         # Install the DCGM package
         echo -e "${BLUE} > Installing the NVIDIA DCGM package... ${RESET}"
@@ -158,11 +158,24 @@ if $nvidia_gpu; then
     # If Debian based system
     if [ -f /etc/debian_version ]; then
 
+        # Get os name (ignore stderr output from lsb_release)
+        os_name=$(lsb_release -is 2>/dev/null)
+        #Convert os name to lowercase
+        os_name=$(echo $os_name | tr '[:upper:]' '[:lower:]')
+
+        # Get os version (ignore stderr output from lsb_release)
+        os_version=$(lsb_release -rs 2>/dev/null)
+
+        #If the os name is ubuntu, remove the . from the version
+        if [ $os_name == "ubuntu" ]; then
+            os_version=$(echo $os_version | tr -d .)
+        fi
+
         # Set up the CUDA network repository meta-data, GPG key:
         echo " > Setting up the CUDA network repository meta-data, GPG key..."
-        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
+        wget https://developer.download.nvidia.com/compute/cuda/repos/$os_name$os_version/x86_64/cuda-keyring_1.0-1_all.deb
         dpkg -i cuda-keyring_1.0-1_all.deb
-        add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
+        add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/$os_name$os_version/x86_64/ /"
 
         # Install the DCGM package
         echo " > Installing the NVIDIA DCGM package..."
