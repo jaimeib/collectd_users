@@ -79,6 +79,7 @@ if [ -f /etc/redhat-release ]; then
     dcgm_bindings_path="/usr/local/dcgm/bindings/python3"
     dcgm_collectd_plugin_path="/usr/lib64/collectd/dcgm"
     libdcgm_path="/usr/lib64"
+    pythonlib_path="/usr/lib64"
 fi
 
 # If Debian based system
@@ -92,6 +93,7 @@ if [ -f /etc/debian_version ]; then
     dcgm_bindings_path="/usr/local/dcgm/bindings/python3"
     dcgm_collectd_plugin_path="/usr/lib/collectd/dcgm"
     libdcgm_path="/usr/lib/x86_64-linux-gnu"
+    pythonlib_path="/usr/lib"
 fi
 
 # Check if the system has a supported NVIDIA GPU
@@ -218,6 +220,20 @@ if $nvidia_gpu; then
 
     # Download the DCGM collectd types.db file to the collectd directory
     wget https://raw.githubusercontent.com/jaimeib/collectd_users/main/collectd/dcgm_types.db -O $collectd_types_db_path/dcgm_types.db
+
+    # If there are multiple python versions installed
+    if [ $(ls $pythonlib_path | grep python | wc -w) -gt 1 ]; then
+        echo -e "${YELLOW} > Multiple python versions detected ${RESET}"
+        # Fix multple python.so version problem
+        echo -e "${BLUE} > Fixing multiple python.so version problem... ${RESET}"
+        # Get the path of the libpython.so file
+        libpython_path=$(find $pythonlib_path -name "libpython*.so")
+        echo -e "${GREEN} > Found libpython.so file: $libpython_path ${RESET}"
+        # Set the location of the libpython.so file in the collectd configuration file (/etc/default/collectd)
+        echo -e "${GREEN} > Setting the location of the libpython.so file in the collectd configuration file... ${RESET}"
+        # Add the LD_PRELOAD line to the collectd configuration file
+        echo "LD_PRELOAD=$libpython_path" >> /etc/default/collectd
+    fi
 
 fi
 
