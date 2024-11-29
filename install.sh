@@ -97,7 +97,7 @@ if [ -f /etc/debian_version ]; then
 fi
 
 # Check if the system has a supported NVIDIA GPU
-if nvidia-smi &> /dev/null; then
+if nvidia-smi &>/dev/null; then
     echo -e "${YELLOW} > NVIDIA GPU detected ${RESET}"
     nvidia_gpu=true
 else
@@ -116,7 +116,6 @@ if [ -f /etc/redhat-release ]; then
         # Install the python-plugin for collectd
         dnf install -y collectd-python
     fi
-    
 
 fi
 
@@ -146,7 +145,7 @@ if $nvidia_gpu; then
 
     echo -e "${BLUE} > Setting up the NVIDIA DCGM... ${RESET}"
 
-    # If Red Hat based system 
+    # If Red Hat based system
     if [ -f /etc/redhat-release ]; then
 
         # Set up the CUDA network repository meta-data, GPG key:
@@ -192,7 +191,7 @@ if $nvidia_gpu; then
     if ! systemctl is-active --quiet nvidia-dcgm; then
         echo -e "${RED} > NVIDIA DCGM service is not running. Exiting... ${RESET}"
         exit
-    else 
+    else
         echo -e "${GREEN} > NVIDIA DCGM service is running ${RESET}"
     fi
 
@@ -232,7 +231,7 @@ if $nvidia_gpu; then
         # Set the location of the libpython.so file in the collectd configuration file (/etc/default/collectd)
         echo -e "${GREEN} > Setting the location of the libpython.so file in the collectd configuration file... ${RESET}"
         # Add the LD_PRELOAD line to the collectd configuration file
-        echo "LD_PRELOAD=$libpython_path" >> /etc/default/collectd
+        echo "LD_PRELOAD=$libpython_path" >>/etc/default/collectd
     fi
 
 fi
@@ -252,7 +251,7 @@ systemctl restart collectd
 if ! systemctl is-active --quiet collectd; then
     echo -e "${RED} > Collectd service is not running. Exiting... ${RESET}"
     exit
-else 
+else
     echo -e "${GREEN} > Collectd service is running ${RESET}"
 fi
 
@@ -262,11 +261,12 @@ echo -e "${GREEN} > Installation complete. Exiting... ${RESET}"
 # Print next steps:
 echo " "
 echo -e "${BOLD} > Next steps: ${RESET}"
-echo -e "${BOLD} > Now you can log in into ${BLUE}https://monitor.ifca.es/grafana/${RESET}${BOLD} with your ${BLUE}IFCA${RESET}${BOLD} credentials. ${RESET}" 
+echo -e "${BOLD} > Now you can log in into ${BLUE}https://monitor.ifca.es/grafana/${RESET}${BOLD} with your ${BLUE}IFCA${RESET}${BOLD} credentials. ${RESET}"
 echo -e "${BOLD}    1. Go to ${YELLOW}"Home"${RESET}${BOLD} --> ${YELLOW}"Dashboards"${RESET}${BOLD} --> ${YELLOW}"IFCA Monitoring External"${RESET} ${RESET}"
-echo -e "${BOLD}    2. You will see 2 dashboards: ${RESET}"
-echo -e "${BOLD}       - ${GREEN}"IFCA Cloud VM General":${RESET} This dashboard shows the general information of the VMs in your project. ${RESET}"
-echo -e "${BOLD}       - ${GREEN}"IFCA Cloud VM Overview":${RESET} This dashboard shows the detailed information of a specific VM. ${RESET}"
+echo -e "${BOLD}    2. You will see 3 dashboards: ${RESET}"
+echo -e "${BOLD}       - ${GREEN}"IFCA Cloud / Cloud VM L1":${RESET} This dashboard shows the general utilization of all your VMs. ${RESET}"
+echo -e "${BOLD}       - ${GREEN}"IFCA Cloud / Cloud VM L2":${RESET} This dashboard shows the general information of the VMs in your project. ${RESET}"
+echo -e "${BOLD}       - ${GREEN}"IFCA Cloud / Cloud VM L3":${RESET} This dashboard shows the detailed information of a specific VM. ${RESET}"
 echo -e "${BOLD} > Remember to select your ${YELLOW}VLAN number${RESET}: ${RED}$vlan${RESET}${BOLD} in the ${YELLOW}"VLAN"${RESET}${BOLD} field in the top right corner of the dashboard. ${RESET}"
 
 # Exit the script
